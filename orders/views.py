@@ -82,7 +82,7 @@ class OrderDetailViewSet(viewsets.ModelViewSet):
             return Response({"msg": "Product does not exist."}, status=status.HTTP_400_BAD_REQUEST)
         product_stock = product_instance.stock
 
-        order_details = self.queryset.values()
+        order_details = self.queryset.filter(order=request.data["order"]).values()
         for detail in order_details:
             if request.data["product"] == detail["product_id"]:
                 return Response({"msg": "Product already ordered."}, status=status.HTTP_400_BAD_REQUEST)
